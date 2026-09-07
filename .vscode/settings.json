@@ -1,0 +1,9 @@
+{
+  "markdown.editor.filePaste.enabled": true,
+  "markdown.editor.drop.enabled": true,
+  "markdown.copyFiles.destination": {
+    "/docs/temas/*.md": "/docs/assets/images/${documentBaseName}/${fileName}",
+    "/docs/**/*.md": "/docs/assets/images/${fileName}"
+  },
+  "markdown.copyFiles.overwriteBehavior": "nameIncrementally"
+}

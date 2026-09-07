@@ -1,0 +1,74 @@
+site_name: Investigaciones
+site_description: Cuaderno de investigación personal
+site_author: odi
+use_directory_urls: false
+
+theme:
+  name: material
+  language: es
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Modo oscuro
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Modo claro
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+    - toc.follow
+
+plugins:
+  - search:
+      lang: es
+  - glightbox:
+      touchNavigation: true
+      loop: false
+      effect: zoom
+      width: 90%
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+nav:
+  - Inicio: index.md
+  - Temas:
+      - Cómo escribir una nota: temas/como-escribir.md
+      - Ejemplo de investigación: temas/ejemplo.md
+      - Casa47: temas/casa47.md
+  - Comandos: comandos/index.md
+  - Archivos: archivos/index.md
+
+extra:
+  generator: false

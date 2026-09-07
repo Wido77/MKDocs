@@ -1,4 +1,4 @@
-# <b>CASA47d</b>
+# <b>CASA47</b>
 
 Fecha: 07-09-2026
 Estado: En curso
@@ -6,6 +6,7 @@ Estado: En curso
 ## <b>Lo que se investiga</b>
 En esta primera investigación vamos a intentar descubrir todos los datos posibles del dominio: 
 [CASA47](https://portal.casa47.es/) <b>https://portal.casa47.es</b>  y todo lo relacionado con su contratación y demás información que sea de utilidad
+![indexcasa47](../assets/images/casa47/casa47_index.png)
 
 ## <b>Hallazgos</b>
 - Lo primero que se debe hacer al investigar cualquier dominio es realizar un whois para ver qué tenemos delante. En este caso, al ser un dominio .es tenemos que ir a [dominios.es](https://www.dominios.es/es).<br><br>
@@ -26,6 +27,12 @@ nslookup -type=MX casa47.es
 
 
 ```
+
+- El primer comando nos da información muy relevante sobre el registro CNAME que redirige al dominio público:
+Nos encontramos ante un backend de [Microsoft Power Pages](https://www.microsoft.com/es-es/power-platform/products/power-pages/) en el que se integra de forma nativa [Dataverse](https://www.microsoft.com/es-es/power-platform/dataverse) para implementar el SIG correspondiente.
+Podemos inferir que es un entorno de producción para el público.
+![nslookup](../assets/images/casa47/nslookup1.PNG)
+
 
 - Punto 2
 

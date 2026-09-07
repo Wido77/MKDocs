@@ -12,7 +12,7 @@ En esta primera investigación vamos a intentar descubrir todos los datos posibl
 - Podemos ver que el titular del dominio es el ya extinto [SEPES](https://es.wikipedia.org/wiki/CASA_47) (Entidad Pública Empresarial de Suelo) renombrado a casa47 por motivos ideológicos al referirse directamente al artículo 47 de la Constitución.
 - El dominio se registró el 22 de septiembre de 2025 que nos puede ser útil cuando comprobemos el contrato de la web e infraestructura.
 - Aparece el nombre de [Emilio García Gil](https://www.linkedin.com/in/emilio-garcia-gil-1bb16521/), que, haciendo una búsqueda rápida en Google nos muestra que es el encargado directo de Sistemas y Comunicaciones de SEPES 
-![Emilio](../assets/images/casa47/emilio.png)
+![Emilio](../assets/images/casa47/emilio.PNG)
 
 
 - Punto 2

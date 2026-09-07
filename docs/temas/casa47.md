@@ -1,10 +1,11 @@
-# CASA47
+# <b>CASA47d</b>
 
 Fecha: 07-09-2026
 Estado: En curso
 
 ## <b>Lo que se investiga</b>
-En esta primera investigación vamos a intentar descubrir todos los datos posibles del dominio <b>https://portal.casa47.es/</b> [CASA47](https://portal.casa47.es/) y todo lo relacionado con su contratación y demás información que sea de utilidad
+En esta primera investigación vamos a intentar descubrir todos los datos posibles del dominio: <br>
+L <b>https://portal.casa47.es</b> [CASA47](https://portal.casa47.es/) y todo lo relacionado con su contratación y demás información que sea de utilidad
 
 ## Hallazgos
 - Lo primero que se debe hacer al investigar cualquier dominio es realizar un whois para ver qué tenemos delante. En este caso, al ser un dominio .es tenemos que ir a [dominios.es](https://www.dominios.es/es).<br><br>

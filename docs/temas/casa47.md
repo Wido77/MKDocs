@@ -34,6 +34,7 @@ nslookup -type=CNAME portal.casa47.es
 ```
 
 - El primer comando nos da información muy relevante sobre el registro CNAME que redirige al dominio público:
+La resolución CNAME apunta a powerappsportals.com, lo que permite identificar el servicio como Microsoft Power Pages. Power Pages puede integrarse con Dataverse y otros servicios de Microsoft, aunque la utilización concreta de Dataverse deberá verificarse mediante otras evidencias de la aplicación.
 Nos encontramos ante un backend de [Microsoft Power Pages](https://www.microsoft.com/es-es/power-platform/products/power-pages/) en el que se integra de forma nativa [Dataverse](https://www.microsoft.com/es-es/power-platform/dataverse) para implementar el SIG correspondiente.
 Podemos inferir que es un entorno de producción para el público.
 ![nslookup](../assets/images/casa47/nslookup1.PNG)
@@ -42,8 +43,8 @@ Podemos inferir que es un entorno de producción para el público.
 nslookup -type=A portal.casa47.es
 ```
 
-- El segundo comando nos revela la IPv4 <b>(150.171.109.82) </b>en donde presuntamente está alojada la web, pero mirando la cadena de nombres se puede deducir que simplemente resuelve hacia la infraestructura de Azure Front Door. Sería un ejercicio interesante 
-saber dónde está realmente alojada la aplicación.
+- El segundo comando nos devuelve la IPv4 <b>(150.171.109.82) </b>correspondiente al nombre mr-b01.tm-azurefd.net. Pertenece a la infraestructura utilizada por Azure Front Door y no debe interpretarse como la IP del servidor donde se ejecuta la aplicación.
+Sería un ejercicio interesante saber dónde está realmente alojada la aplicación.
 ![nslookup2](../assets/images/casa47/nslookup2.PNG)
 
 En este caso, vamos a intentar averiguar dónde se encuentra alojada realmente. <br> El primer paso es ejecutar el siguiente comando contra casa47.es y portal.casa47.es para saber cuales son los servidores DNS autoritativos: <br>
@@ -56,13 +57,17 @@ nslookup -type=NS portal.casa47.es
 Nos encontramos con dos servidores DNS que investigaremos más adelante:<br>
 	- ns1.cp2gestion-dtc-ib.com<br>
 	- ns2.cp2gestion-dtc-ib.com<br><br>
-¿Quién gestiona el DNS de portal.casa47.es<br>
+¿Quién gestiona el DNS de portal.casa.47.es<br>
 ![nslookup4](../assets/images/casa47/nslookup4.PNG)<br>
+portal.casa47.es es un hostname dentro de la zona casa47.es, no es una zona DNS delegada independiente.
+Para comprobar si portal.casa47.es constituye una delegación DNS independiente, se consulta su registro NS. En este caso no obtenemos una delegación independiente equivalente a la de casa47.es; la resolución del hostname nos conduce a la cadena de nombres de Microsoft Azure.<br>
+
 
 Con el anterior comando hemos llegado al servidor DNS "final" y podemos descubrir la IP con _nslookup -type=A_:<br>
 ![nslookup5](../assets/images/casa47/nslookup5.PNG)<br>
 
-Ahora ya tenemos 2 ips diferentes para el "mismo" servidor, eso hace que se pueda llegar a la posible conclusión de que nos encontramos ante un servidor que NO es único,sino parte de una infraestructura distribuida.
+Al repetir la consulta, mr-b01.tm-azurefd.net puede resolver a otra dirección, en nuestro caso 150.171.109.83. Esto indica que estamos ante una infraestructura distribuida y que la IP obtenida representa un punto de acceso de Azure, no necesariamente un servidor único.
+
 
 Vamos a ejecutar un curl -I para enviar una solicitud HTTP HEAD para que el servidor nos responda solamente con los encabezados y obviar el cuerpo de la página.
 ![nslookup6](../assets/images/casa47/nslookup6.PNG)<br>
@@ -84,20 +89,35 @@ Revisando el parámetro [_Content Security Policy_](https://developer.mozilla.or
 - https://floorfy.com --> Software inmobiliario para crear tours virtuales<br>
 
 En resumen...<br>
-| Capa |	|Lo que hemos descubierto|
-|---------|:----:|---------:|
-Dominio público	portal.casa47.es
-DNS autoritativo	ns1/ns2.cp2gestion-dtc-ib.com
-CNAME	powerappsportals.com
-Routing	Azure Traffic Manager
-Frontend	Azure Front Door
-IP frontend	150.171.109.82, .83, etc.
-Aplicación	Microsoft Power Pages
-Identificador del portal	c68bbe8f-2609-41a3-bf28-d6720424781c
-Afinidad	ARRAffinity
-Telemetría	Application Insights
-Región de telemetría	Spain Central
-Backend físico	No expuesto públicamente
+
+
+| Capa | | Lo que hemos descubierto |
+|:---------|:---------|:---------|
+| Dominio | | <span style="background-color: #828181; border-radius: 6px; padding: 2px 6px; display: inline-block;">portal.casa47.es</span> |     
+|DNS autoritativo | | <span style="background-color: #828181; border-radius: 6px; padding: 2px 6px; display: inline-block;">ns1/ns2.cp2gestion-dtc-ib.com</span> |
+|Plataforma | | Microsoft Power Pages |
+|CNAME | | <span style="background-color: #828181; border-radius: 6px; padding: 2px 6px; display: inline-block;">powerappsportals.com</span> |
+|Routing | | Azure Traffic Manager |
+|Frontend |	| Azure Front Door |
+|IP frontend | |  <span style="background-color: #828181; border-radius: 6px; padding: 2px 6px; display: inline-block;">150.171.109.82</span>,  <span style="background-color: #828181; border-radius: 6px; padding: 2px 6px; display: inline-block;">150.171.109.83</span> |
+|Aplicación | | Microsoft Power Pages |
+|Identificador del portal |	|  <span style="background-color: #828181; border-radius: 6px; padding: 2px 6px; display: inline-block;">c68bbe8f-2609-41a3-bf28-d6720424781c |
+|Cookies |	|  <span style="background-color: #828181; border-radius: 6px; padding: 2px 6px; display: inline-block;">ARRAffinity |
+|Monitorización| | Azure Application Insights |
+|Región observada| |Spain Central|
+|IP de origen| |<b>No expuesta públicamente</b>|
+|Servidor físico | | <b>No identificable mediante DNS público</b>|
+
+##Conclusión de la investigación DNS
+La investigación DNS permite determinar que portal.casa47.es utiliza Microsoft Power Pages como plataforma de publicación y que su tráfico se encuentra integrado en una infraestructura de Microsoft Azure basada en Azure Traffic Manager y Azure Front Door.
+
+El dominio casa47.es utiliza como servidores DNS autoritativos ns1.cp2gestion-dtc-ib.com y ns2.cp2gestion-dtc-ib.com, mientras que el subdominio portal.casa47.es está configurado mediante una cadena de registros CNAME que termina en infraestructura de Azure.
+
+Las direcciones 150.171.109.82 y 150.171.109.83 obtenidas durante las consultas DNS no deben considerarse la dirección IP del servidor de aplicación. Corresponden a la infraestructura frontal de Azure y pueden variar debido a la naturaleza distribuida del servicio.
+
+Las cabeceras HTTP obtenidas mediante curl aportan evidencias adicionales de la utilización de Power Pages, especialmente mediante las cabeceras x-ms-portal-app, x-azure-ref y las cookies ARRAffinity.
+
+Por tanto, no es posible determinar mediante DNS público la dirección IP del servidor físico o instancia concreta que ejecuta la aplicación. La infraestructura de origen está abstraída por Microsoft como parte de un servicio PaaS gestionado.
 
 ## Comandos
 

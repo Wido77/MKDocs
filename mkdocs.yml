@@ -63,6 +63,9 @@ markdown_extensions:
 
 nav:
   - Inicio: index.md
+  - Proyecto:
+      - Alcance y seguridad: alcance-y-seguridad.md
+      - Arquitectura: arquitectura.md
   - Temas:
       - Cómo escribir una nota: temas/como-escribir.md
       - Ejemplo de investigación: temas/ejemplo.md

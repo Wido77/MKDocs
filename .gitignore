@@ -4,5 +4,6 @@ __pycache__/
 *.pyc
 site/
 .cache/
+.argos/
 .DS_Store
 Thumbs.db

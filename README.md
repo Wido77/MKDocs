@@ -2,6 +2,17 @@
 
 Sitio de notas con [MkDocs Material](https://squidfunk.github.io/mkdocs-material/), publicado en GitHub Pages.
 
+## Argos: aplicación local
+
+Argos guarda investigaciones y objetivos en SQLite local. Esta primera versión no realiza consultas de red: prepara el modelo de evidencia y exige confirmar el alcance autorizado antes de crear una investigación.
+
+```powershell
+cd "F:\Programacion\SegundoCerebro\Segundo Cerebro\Investigación\Argos"
+python -m argos
+```
+
+Abre `http://127.0.0.1:8765`. Los datos se guardan en `.argos/` y no se versionan.
+
 ## Arranque local (Windows)
 
 ```powershell
